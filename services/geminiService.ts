@@ -2,7 +2,8 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import type { Recipe, Language } from '../types';
 
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+// @ts-ignore
+const API_KEY = window.__VITE_GEMINI_API_KEY__;
 
 if (!API_KEY) {
   throw new Error("VITE_GEMINI_API_KEY environment variable not set");
