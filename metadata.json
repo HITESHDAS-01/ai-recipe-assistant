@@ -1,0 +1,7 @@
+{
+  "name": "AI Recipe Assistant",
+  "description": "An AI-powered recipe assistant that generates recipes from your ingredients and guides you through cooking with voice instructions.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
