@@ -21,4 +21,6 @@ export interface Recipe {
   totalTime: string;
   ingredients: string[];
   steps: RecipeStep[];
+  id?: string;  // Add this for uniquely identifying recipes
+  isFavorite?: boolean;
 }
