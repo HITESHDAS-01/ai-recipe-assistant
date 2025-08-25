@@ -8,6 +8,7 @@ export enum AppScreen {
   Home = 'HOME',
   Recipe = 'RECIPE',
   Cooking = 'COOKING',
+  Favorites = 'FAVORITES',
 }
 
 export interface RecipeStep {
@@ -17,10 +18,9 @@ export interface RecipeStep {
 }
 
 export interface Recipe {
+  id: string;
   recipeName: string;
   totalTime: string;
   ingredients: string[];
   steps: RecipeStep[];
-  id?: string;  // Add this for uniquely identifying recipes
-  isFavorite?: boolean;
 }

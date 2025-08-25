@@ -1,45 +1,41 @@
 {
-  "id": "ai-recipe-assistant",
   "name": "AI Recipe Assistant",
   "short_name": "Recipe AI",
-  "description": "An AI-powered recipe assistant that helps you cook with available ingredients",
-  "categories": ["food", "lifestyle", "utilities"],
+  "description": "Generate recipes from your ingredients using AI",
   "start_url": "/",
-  "launch_handler": {
-    "client_mode": ["focus-existing", "auto"]
-  },
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#f97316",
-  "prefer_related_applications": false,
-  "related_applications": [],
+  "orientation": "portrait-primary",
   "scope": "/",
-  "scope_extensions": [],
   "lang": "en",
-  "dir": "ltr",
-  "iarc_rating_id": "",
-  "screenshots": [
-    {
-      "src": "/screenshots/home.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "platform": "wide",
-      "label": "Home Screen"
-    }
-  ],
+  "categories": ["food", "lifestyle", "productivity"],
   "icons": [
     {
       "src": "/icons/192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/icons/512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/home.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow"
     }
   ]
 }

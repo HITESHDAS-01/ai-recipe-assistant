@@ -4,18 +4,18 @@ import { Language } from '../types';
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
 import LanguageSelector from './LanguageSelector';
 import MicButton from './MicButton';
-import { FavoriteRecipes } from './FavoriteRecipes';
 
 interface HomeScreenProps {
   onGetRecipe: (ingredients: string) => void;
   language: Language;
   setLanguage: (language: Language) => void;
   error: string | null;
+  onGoToFavorites: () => void;
+  favoritesCount: number;
 }
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ onGetRecipe, language, setLanguage, error }) => {
+const HomeScreen: React.FC<HomeScreenProps> = ({ onGetRecipe, language, setLanguage, error, onGoToFavorites, favoritesCount }) => {
   const [ingredients, setIngredients] = useState('');
-  const [showFavorites, setShowFavorites] = useState(false);
 
   const handleSpeechResult = useCallback((transcript: string) => {
     setIngredients(prev => prev ? `${prev} ${transcript}` : transcript);
@@ -28,65 +28,65 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onGetRecipe, language, setLangu
     onGetRecipe(ingredients);
   };
 
-  const handleSelectFavorite = (recipe: any) => {
-    onGetRecipe(recipe.ingredients.join(', '));
-  };
-
   return (
-    <div className="flex flex-col h-full p-6 bg-white justify-between">
+    <div className="flex flex-col h-full p-8 bg-gradient-to-b from-white to-orange-50/30 justify-between">
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">AI Recipe Assistant</h1>
-        <p className="text-gray-500 mb-6">What ingredients do you have today?</p>
-        <div className="flex justify-center gap-4 mb-6">
-          <LanguageSelector selectedLanguage={language} onSelectLanguage={setLanguage} />
+        <div className="mb-4">
+          <div className="w-16 h-16 mx-auto bg-gradient-to-r from-orange-400 to-pink-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+            </svg>
+          </div>
+        </div>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex-1"></div>
+          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">AI Recipe Assistant</h1>
           <button
-            onClick={() => setShowFavorites(prev => !prev)}
-            className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
-              showFavorites
-                ? 'bg-orange-500 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
+            onClick={onGoToFavorites}
+            className="relative p-3 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border-2 border-orange-200/50 hover:border-orange-300 transition-all duration-300 transform hover:scale-110"
           >
-            {showFavorites ? 'New Recipe' : 'Favorites'}
+            <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            {favoritesCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                {favoritesCount}
+              </span>
+            )}
           </button>
         </div>
+        <p className="text-gray-600 mb-8 text-lg font-medium">Transform your ingredients into culinary magic ✨</p>
+        <LanguageSelector selectedLanguage={language} onSelectLanguage={setLanguage} />
       </div>
 
-      <div className="flex-grow">
-        {showFavorites ? (
-          <FavoriteRecipes onSelectRecipe={handleSelectFavorite} />
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col justify-center h-full">
-            <div className="relative">
-              <textarea
-                value={ingredients}
-                onChange={(e) => setIngredients(e.target.value)}
-                placeholder="e.g., chicken, onion, tomatoes, ginger..."
-                className="w-full h-36 p-4 pr-14 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-300 resize-none"
-              />
-              {isSupported && <MicButton isListening={isListening} onClick={startListening} />}
-            </div>
-            {!isSupported && (
-              <p className="text-xs text-center text-red-500 mt-2">
-                Speech recognition is not supported in your browser.
-              </p>
-            )}
-            {error && <p className="text-sm text-center text-red-600 mt-4">{error}</p>}
-            <button
-              type="submit"
-              className="mt-6 px-6 py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors duration-300"
-            >
-              Get Recipe
-            </button>
-          </form>
-        )}
-      </div>
-      <div className="text-center text-gray-400 text-sm mt-4">
-        Created by Hitesh Das
-      </div>
+      <form onSubmit={handleSubmit} className="flex-grow flex flex-col justify-center">
+        <div className="relative mb-6">
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 to-pink-400/20 rounded-2xl blur-xl"></div>
+          <textarea
+            value={ingredients}
+            onChange={(e) => setIngredients(e.target.value)}
+            placeholder="e.g., chicken, onion, tomatoes, ginger..."
+            className="relative w-full h-40 p-6 pr-16 bg-white/80 backdrop-blur-sm border-2 border-orange-200/50 rounded-2xl focus:ring-4 focus:ring-orange-400/30 focus:border-orange-400 transition-all duration-300 resize-none text-gray-700 placeholder-gray-400 shadow-lg"
+          />
+          {isSupported && <MicButton isListening={isListening} onClick={startListening} />}
+        </div>
+        {!isSupported && <p className="text-xs text-center text-red-500 mt-2 bg-red-50 p-2 rounded-lg">Speech recognition is not supported in your browser.</p>}
+        {error && <p className="text-sm text-center text-red-600 mt-4 bg-red-50 p-3 rounded-lg border border-red-200">{error}</p>}
+      </form>
+
+      <button
+        onClick={handleSubmit}
+        className="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold py-5 rounded-2xl hover:from-orange-600 hover:to-pink-600 transition-all duration-300 active:scale-98 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+      >
+        <span className="flex items-center justify-center gap-2">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          Generate Recipe
+        </span>
+      </button>
     </div>
   );
 };
-
 
 export default HomeScreen;

@@ -11,15 +11,15 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ selectedLanguage, o
   const languages = [Language.Hinglish, Language.Assamese];
 
   return (
-    <div className="flex justify-center space-x-4 mb-6">
+    <div className="flex justify-center space-x-3 mb-8">
       {languages.map((lang) => (
         <button
           key={lang}
           onClick={() => onSelectLanguage(lang)}
-          className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300
+          className={`px-8 py-3 rounded-2xl text-sm font-bold transition-all duration-300 transform hover:scale-105
             ${selectedLanguage === lang 
-              ? 'bg-orange-500 text-white shadow-lg scale-105' 
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-xl border-2 border-orange-300' 
+              : 'bg-white/80 backdrop-blur-sm text-gray-700 hover:bg-white border-2 border-gray-200 hover:border-orange-300 shadow-lg'
             }`}
         >
           {lang}
