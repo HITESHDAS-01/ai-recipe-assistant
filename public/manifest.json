@@ -2,6 +2,7 @@
   "name": "AI Recipe Assistant",
   "short_name": "Recipe AI",
   "description": "Generate recipes from your ingredients using AI",
+  "id": "/ai-recipe-assistant/",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -10,6 +11,9 @@
   "scope": "/",
   "lang": "en",
   "categories": ["food", "lifestyle", "productivity"],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
   "icons": [
     {
       "src": "/icons/192x192.png",
