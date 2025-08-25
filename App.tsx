@@ -11,7 +11,7 @@ import LoadingSpinner from './components/LoadingSpinner';
 
 const App: React.FC = () => {
   const [currentScreen, setCurrentScreen] = useState<AppScreen>(AppScreen.Home);
-  const [language, setLanguage] = useState<Language>(Language.Hinglish);
+  const [language, setLanguage] = useState<Language>(Language.English);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);

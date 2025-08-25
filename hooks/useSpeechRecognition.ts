@@ -60,7 +60,7 @@ declare global {
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-export const useSpeechRecognition = (onResult: (transcript: string) => void) => {
+export const useSpeechRecognition = (onResult: (transcript: string) => void, language: string = 'en-US') => {
   const [isListening, setIsListening] = useState(false);
   const [isSupported, setIsSupported] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
@@ -75,7 +75,7 @@ export const useSpeechRecognition = (onResult: (transcript: string) => void) => 
     const recognition = new SpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.lang = 'en-US';
+    recognition.lang = language;
 
     recognition.onstart = () => {
       setIsListening(true);
@@ -96,7 +96,7 @@ export const useSpeechRecognition = (onResult: (transcript: string) => void) => 
     };
 
     recognitionRef.current = recognition;
-  }, [onResult]);
+  }, [onResult, language]);
 
   const startListening = () => {
     if (recognitionRef.current && !isListening) {
