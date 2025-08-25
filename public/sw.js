@@ -3,9 +3,6 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/index.css',
-  '/index.tsx',
-  '/App.tsx',
-  '/types.ts',
   '/icons/192x192.png',
   '/icons/512x512.png',
   '/icons/maskable-icon-512x512.png',
@@ -14,12 +11,18 @@ const urlsToCache = [
 
 // Install event - cache resources
 self.addEventListener('install', (event) => {
+  console.log('Service Worker installing...');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
+        console.log('Opened cache');
         return cache.addAll(urlsToCache);
       })
+      .catch((error) => {
+        console.error('Failed to cache resources:', error);
+      })
   );
+  self.skipWaiting();
 });
 
 // Fetch event - serve from cache when offline
@@ -36,15 +39,18 @@ self.addEventListener('fetch', (event) => {
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
+  console.log('Service Worker activating...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
     })
   );
+  self.clients.claim();
 });
